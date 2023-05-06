@@ -15,7 +15,7 @@ function Clock() {
 
   return (
     <div>
-      <h1>Current Time: {gmtTime} </h1>
+      <h3> {gmtTime} </h3>
       
     </div>
   );
