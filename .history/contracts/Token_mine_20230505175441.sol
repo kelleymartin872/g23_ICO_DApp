@@ -91,7 +91,7 @@ contract Token_mine {
     }
 
     function withdraw(uint amount) public {
-        require(balances[msg.sender >= amount, "Insufficient balance"]);
+        require(balances[msg.sender >= amount], "Insufficient balance");
         (bool success,) = msg.sender.call{value:amount}("");
         require(success, "Failed to send ether");
         balances[msg.sender] -= amount;
