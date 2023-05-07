@@ -2,10 +2,7 @@
 import './App.css';
 import Clock from "./components/Clock.js"
 import Deposit from "./components/Deposit.js"
-
-import React, { useState, useEffect } from 'react';
 import ProgressBar from "./components/ProgressBar";
-// import InputForm from './components/InputForm';
 
 
 function App() {
