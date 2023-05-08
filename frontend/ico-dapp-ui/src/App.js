@@ -12,7 +12,7 @@ import { useState, useEffect } from 'react';
 
 function App() {
 
-  const contractAddress = "0x355638a4eCcb777794257f22f50c289d4189F2";
+  //const contractAddress = "0x355638a4eCcb777794257f22f50c289d4189F2";
   
 
   const [value, setValue] = useState(100);
