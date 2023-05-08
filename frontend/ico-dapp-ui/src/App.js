@@ -12,7 +12,7 @@ import { ethers } from 'ethers'
 
 function App() {
 
-  const contractAddress = "0x355638a4eCcb777794257f22f50c289d4189F24";
+  const contractAddress = "0x355638a4eCcb777794257f22f50c289d4189F2";
   
 
   const [value, setValue] = useState(100);
@@ -150,9 +150,9 @@ function App() {
         {ProgressBar()}
       </div>
       <div className='row'>
-        <div className="four columns header-col"> <h3>Start Time :2023/05/08 00:00:00 GMT</h3> </div>
+        <div className="four columns header-col"> <h3>Start Time :2023/05/09 00:00:00 GMT</h3> </div>
         <div className="four columns header-col"> </div>
-        <div className="four columns header-col"><h3>End Time :2023/05/09 00:00:00 GMT</h3></div>
+        <div className="four columns header-col"><h3>End Time :2023/05/10 00:00:00 GMT</h3></div>
       </div>
     </div>
   );
