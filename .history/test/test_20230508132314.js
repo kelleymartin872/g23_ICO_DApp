@@ -10,24 +10,32 @@ describe("ICO and ICOToken", function () {
   beforeEach(async () => {
     // Deploy token contract
     const ICOToken = await ethers.getContractFactory("ICOToken");
-    token = await ICOToken.deploy();
+    token = await ICOToken.deploy("MyToken", "MT", 18, ethers.utils.parseEther("1000"));
     await token.deployed();
 
     // Deploy ICO contract, starting in 1 minute and ending in 10 minutes
     const now = Math.floor(Date.now() / 1000);
+    const startTime = now + 60;
+    const endTime = now + 600;
     const ICO = await ethers.getContractFactory("ICO");
     ico = await ICO.deploy(
-      token.address
+      token.address,
+      ethers.utils.parseEther("10"), // Soft cap
+      ethers.utils.parseEther("100"), // Hard cap
+      ethers.utils.parseEther("1"), // Min purchase amount
+      ethers.utils.parseEther("5"), // Max purchase amount
+      startTime,
+      endTime
     );
     await ico.deployed();
 
     // Mint some tokens to the owner
-    // await token.mint(owner, ethers.utils.parseEther("5000"));
+    await token.mint(owner, ethers.utils.parseEther("500"));
   });
 
   it("should correctly deposit and withdraw during ICO", async () => {
     // Investor 1 deposits 2 Ether
-    await ico.connect(ethers.provider.getSigner(investor1)).deposit({ value: ethers.utils.parseEther("20") });
+    await ico.connect(ethers.provider.getSigner(investor1)).deposit({ value: ethers.utils.parseEther("2") });
     expect(await ico.deposits(investor1)).to.equal(ethers.utils.parseEther("2"));
 
     // Investor 1 withdraws the deposit because ICO hasn't ended yet

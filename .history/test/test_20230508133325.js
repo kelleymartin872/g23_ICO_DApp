@@ -27,7 +27,7 @@ describe("ICO and ICOToken", function () {
 
   it("should correctly deposit and withdraw during ICO", async () => {
     // Investor 1 deposits 2 Ether
-    await ico.connect(ethers.provider.getSigner(investor1)).deposit({ value: ethers.utils.parseEther("20") });
+    await ico.connect(ethers.provider.getSigner(investor1)).deposit({ value: ethers.utils.parseEther("2") });
     expect(await ico.deposits(investor1)).to.equal(ethers.utils.parseEther("2"));
 
     // Investor 1 withdraws the deposit because ICO hasn't ended yet
