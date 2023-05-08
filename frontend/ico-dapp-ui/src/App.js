@@ -7,7 +7,7 @@ import { Button, Input, Progress } from 'antd'
 import { useState, useEffect } from 'react';
 
 
-import { ethers } from 'ethers'
+//import { ethers } from 'ethers'
 
 
 function App() {
@@ -16,8 +16,8 @@ function App() {
   
 
   const [value, setValue] = useState(100);
-  const [softcap, setSoftcap] = useState(10);
-  const [hardcap, setHardcap] = useState(100);
+  const [softcap] = useState(10);
+  const [hardcap] = useState(100);
 
   const [currentAccount, setCurrentAccount] = useState(null);
 
@@ -58,7 +58,7 @@ function App() {
   }
 
   const handleSubmit = async () => {
-
+    setValue(50);
   }
 
   const connectWalletButton = () => {
