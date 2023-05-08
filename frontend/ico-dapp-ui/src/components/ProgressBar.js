@@ -4,7 +4,7 @@ import { Progress } from 'antd';
 
 function ProgressBar(props) {
 
-    const [value, setValue] = useState(10);
+    const [value, setValue] = useState(parseInt(props.value));
     const [softcap, setSoftcap] = useState(10);
     const [hardcap, setHardcap] = useState(100);
 
@@ -33,7 +33,7 @@ function ProgressBar(props) {
                     status="active"
                 />
                 <div style={{ marginTop: 10 }}>
-                    <span style={{ float: 'left' }}>0 BMB</span>
+                    <span style={{ float: 'left' }}>0 BNB</span>
                     <span style={{ float: 'right' }}>1 BNB</span>
                     <div style={{ float: 'left', position: 'relative', width: '100%' }}>
                         <span style={{ position: 'absolute', left: `${softcap}%`, top: -80 }}>

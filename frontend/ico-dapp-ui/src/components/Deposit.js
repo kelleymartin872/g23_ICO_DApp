@@ -3,8 +3,7 @@ import { Input, Button } from 'antd';
 
 function Deposit(props) {
 
-    const handleSubmit = () => {
-
+    const handleSubmit = async () => {
     }
 
     return (
@@ -21,7 +20,7 @@ function Deposit(props) {
             </div>
             <div className='one coumns'></div>
             <div className='three columns'>
-                <Button type="primary"> {props.buttontext} </Button>
+                <Button type="primary" onClick={handleSubmit}> {props.buttontext} </Button>
             </div>
         </div>
     );
