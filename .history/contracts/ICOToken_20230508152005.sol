@@ -48,7 +48,7 @@ contract ICOToken is IEIP20 {
     }
 
     function transfer(address to, uint256 value) external override returns (bool) {
-        // owner = msg.sender;
+        owner = msg.sender;
         _transfer(owner, to, value);
         return true;
     }

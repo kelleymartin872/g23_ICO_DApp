@@ -28,5 +28,8 @@
     "hardhat": "^2.12.5",
     "hardhat-gas-reporter": "^1.0.2",
     "solidity-coverage": "^0.7.22"
+  },
+  "dependencies": {
+    "bignumber": "^1.1.0"
   }
 }

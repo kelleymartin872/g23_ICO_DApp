@@ -123,12 +123,7 @@ describe('ICO', function () {
     it('should allow users to withdraw their deposits if the soft cap has not been reached', async function () {
       ico.totalEtherRaised = 0.05;
       await ethers.provider.send('evm_increaseTime', [86400]);
-  
-      //const balanceBefore = await ethers.provider.getBalance(addr1.address);
       await ico.connect(addr1).withdraw();
-      //const balanceAfter = await ethers.provider.getBalance(addr1.address);
-  
-      //expect(balanceAfter).to.equal(await balanceBefore.add(ethers.utils.parseEther('0.05')));
       expect(await ico.deposits(addr1.address)).to.equal(0);
       await ethers.provider.send('evm_increaseTime', [-86400]);
     });

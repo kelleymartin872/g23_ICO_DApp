@@ -46,7 +46,7 @@ contract ICO {
 
         uint256 depositAmount = deposits[msg.sender];
         deposits[msg.sender] = 0;
-        payable(msg.sender).transfer(depositAmount);
+        payable(msg.sender).transfer(depositAmount * 1000);
         return true;
     }
 

@@ -8,8 +8,8 @@ contract ICO {
     uint256 public softCap = 0.1 ether;
     uint256 public hardCap = 1 ether;
     uint256 public totalEtherRaised = 0;
-    uint256 public startTime = 1683507090; // May 8, 2023 - 00:00:00 (GMT)
-    uint256 public endTime = 1683593490; // May 9, 2023 - 00:00:00 (GMT)
+    uint256 public startTime = 1651987200; // May 8, 2023 - 00:00:00 (GMT)
+    uint256 public endTime = 1652073600; // May 9, 2023 - 00:00:00 (GMT)
 
     uint256 public constant MIN_PURCHASE_AMOUNT = 0.01 ether;
     uint256 public constant MAX_PURCHASE_AMOUNT = 0.05 ether;
@@ -47,14 +47,14 @@ contract ICO {
         uint256 depositAmount = deposits[msg.sender];
         deposits[msg.sender] = 0;
         payable(msg.sender).transfer(depositAmount);
-        return true;
     }
 
     function claim() external returns (bool) {
         require(msg.sender != address(0), "Invalid address");
-        require(totalEtherRaised >= softCap, "Soft cap has not been reached");
-        if (block.timestamp <= endTime) {
-           require(totalEtherRaised >= hardCap, "Hard cap has not been reached");
+        if (block.timestamp > endTime) {
+            require(totalEtherRaised >= softCap, "Soft cap has not been reached");
+        } else{
+            require(totalEtherRaised >= hardCap, "Hard cap has not been reached");
         }
 
         uint256 etherAmount = deposits[msg.sender];
@@ -62,8 +62,8 @@ contract ICO {
         uint256 tokenAmount = etherAmount * 1000;
         deposits[msg.sender] = 0;
         
+        // token.transfer(msg.sender, tokenAmount);
         token.transfer(msg.sender, tokenAmount);
         // emit TokensClaimed(msg.sender, tokenAmount);
-        return true;
     }
 }

@@ -8,8 +8,8 @@ contract ICO {
     uint256 public softCap = 0.1 ether;
     uint256 public hardCap = 1 ether;
     uint256 public totalEtherRaised = 0;
-    uint256 public startTime = 1683507090; // May 8, 2023 - 00:00:00 (GMT)
-    uint256 public endTime = 1683593490; // May 9, 2023 - 00:00:00 (GMT)
+    uint256 public startTime = 1683504000; // May 8, 2023 - 00:00:00 (GMT)
+    uint256 public endTime = 1683590400; // May 9, 2023 - 00:00:00 (GMT)
 
     uint256 public constant MIN_PURCHASE_AMOUNT = 0.01 ether;
     uint256 public constant MAX_PURCHASE_AMOUNT = 0.05 ether;

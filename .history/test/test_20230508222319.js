@@ -99,18 +99,24 @@ describe('ICO', function () {
     });
   
     it('should not allow users to deposit ether below the minimum purchase amount', async function () {
+      // const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      // await ethers.provider.send('evm_increaseTime', [amount]);
       expect(
         ico.connect(addr1.address).deposit({ value: ethers.utils.parseEther('0.005') })
       ).to.be.revertedWith('Purchase amount too small');
     });
   
     it('should not allow users to deposit ether above the maximum purchase amount', async function () {
+      // const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      // await ethers.provider.send('evm_increaseTime', [amount]);
       expect(
          ico.connect(addr1.address).deposit({value: ethers.utils.parseEther('0.1')})
       ).to.be.revertedWith('Purchase amount too large');
     });
   
     it('should not allow users to deposit ether if the hard cap has been reached', async function () {
+      // const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      // await ethers.provider.send('evm_increaseTime', [amount]);
       ico.totalEtherRaised = 1.5;
   
       expect(
@@ -121,19 +127,29 @@ describe('ICO', function () {
 
   describe("Withdraw", function () {
     it('should allow users to withdraw their deposits if the soft cap has not been reached', async function () {
+      // const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      // await ethers.provider.send('evm_increaseTime', [amount]);
       ico.totalEtherRaised = 0.05;
       await ethers.provider.send('evm_increaseTime', [86400]);
   
-      //const balanceBefore = await ethers.provider.getBalance(addr1.address);
-      await ico.connect(addr1).withdraw();
-      //const balanceAfter = await ethers.provider.getBalance(addr1.address);
+      // const balanceBefore = await ethers.provider.getBalance(addr1.address);
   
-      //expect(balanceAfter).to.equal(await balanceBefore.add(ethers.utils.parseEther('0.05')));
+      await ico.connect(addr1).withdraw();
+  
+      // const balanceAfter = await ethers.provider.getBalance(addr1.address);
+  
+      // expect(balanceAfter).to.equal(balanceBefore.add(ethers.utils.parseEther('0.05')));
       expect(await ico.deposits(addr1.address)).to.equal(0);
       await ethers.provider.send('evm_increaseTime', [-86400]);
     });
   
     it('should not allow users to withdraw their deposits if the soft cap has been reached', async function () {
+      const latestBlock = await ethers.provider.getBlock("latest");
+      const currentTimestamp = latestBlock.timestamp;
+      const etime = Math.floor(Date.now() / 1000);
+      console.log(currentTimestamp);
+      console.log(etime);
+
       const amount = ethers.utils.parseEther('0.5');
       ico.totalEtherRaised = amount;
       await ethers.provider.send('evm_increaseTime', [86400]);
@@ -188,6 +204,9 @@ describe('ICO', function () {
       const currentTimestamp = latestBlock.timestamp;
       console.log(currentTimestamp);
       console.log(Date.now() / 1000);
+      
+      // const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      // await ethers.provider.send('evm_increaseTime', [amount]);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
