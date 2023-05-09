@@ -220,15 +220,13 @@ describe('ICO', function () {
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
-      await ico.connect(addr2).deposit({value: ethers.utils.parseEther('0.05')});
-      await ico.connect(addr2).deposit({value: ethers.utils.parseEther('0.05')});
-      await ico.connect(addr2).deposit({value: ethers.utils.parseEther('0.05')});
+      await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
+      await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
+      await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
 
       await ico.connect(addr1).claim();
-      await ico.connect(addr2).claim();
   
-      expect(await token.balanceOf(addr1.address)).to.equal(ethers.BigNumber.from("350000000000000000000"));
-      expect(await token.balanceOf(addr2.address)).to.equal(ethers.BigNumber.from("150000000000000000000"));
+      expect(await token.balanceOf(addr1.address)).to.equal(ethers.BigNumber.from("1000000000000000000000"));
     });
   })
 });

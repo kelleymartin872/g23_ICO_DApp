@@ -30,7 +30,7 @@ contract ICO {
     }
 
     // purchase tokens from ICO contract = Deposit
-    function deposit () external payable returns (bool) {
+    function deposit () external payable returns () {
         require(msg.sender != address(0), "Invalid address");
         require(totalEtherRaised < hardCap, "Hard cap reached");
         // During ICO
@@ -46,7 +46,7 @@ contract ICO {
         emit Deposit(msg.sender, etherAmount);
     }
 
-    function withdraw() external returns (bool) {
+    function withdraw() external returns () {
         require(msg.sender != address(0), "Invalid address");
         require(block.timestamp > endTime, "ICO has not ended yet");
         require(totalEtherRaised < softCap, "Soft cap has been reached");
@@ -57,7 +57,7 @@ contract ICO {
         emit Withdraw(msg.sender, depositAmount);
     }
 
-    function claim() external returns (bool) {
+    function claim() external returns () {
         require(msg.sender != address(0), "Invalid address");
         require(totalEtherRaised >= softCap, "Soft cap has not been reached");
         if (block.timestamp <= endTime) {

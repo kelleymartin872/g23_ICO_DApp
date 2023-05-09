@@ -57,7 +57,7 @@ contract ICO {
         emit Withdraw(msg.sender, depositAmount);
     }
 
-    function claim() external returns (bool) {
+    function claim() external returns () {
         require(msg.sender != address(0), "Invalid address");
         require(totalEtherRaised >= softCap, "Soft cap has not been reached");
         if (block.timestamp <= endTime) {
