@@ -15,10 +15,6 @@ contract ICO {
     uint256 public constant MIN_PURCHASE_AMOUNT = 0.01 ether;
     uint256 public constant MAX_PURCHASE_AMOUNT = 0.05 ether;
 
-    event Deposit(address indexed invest, uint amount);
-    event Withdraw(address indexed invest, uint amount);
-    event Claim(address indexed invest, uint amount);
-
     // Deposits Mapping
     mapping(address => uint256) public deposits;
 
@@ -70,7 +66,7 @@ contract ICO {
         deposits[msg.sender] = 0;
         
         token.transfer(msg.sender, tokenAmount);
-        emit Claim(msg.sender, tokenAmount);
+        emit TokensClaimed(msg.sender, tokenAmount);
         return true;
     }
 }
