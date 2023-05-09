@@ -26,6 +26,9 @@ const duration = {
     return val * this.days(365);
   },
 };
+const latestBlockTime = await latestTime();
+const openingTime = latestBlockTime + duration.minutes(1);
+const closeTime = openingTime + duration.days(1); // 1 week
 
 describe('ICOToken', function () {
   let token;
@@ -77,8 +80,6 @@ describe('ICO', function () {
   let addr1;
   let addr2;
   let ico;
-  let openingTime;
-  let closeTime;
 
   beforeEach(async () => {
     [owner, addr1, addr2] = await ethers.getSigners();
@@ -87,10 +88,7 @@ describe('ICO', function () {
     token = await Token.connect(owner).deploy();
     await token.deployed();
 
-    const ICO = await ethers.getContractFactory('ICO');    
-    const latestBlockTime = await latestTime();
-    openingTime = latestBlockTime;
-    closeTime = openingTime + duration.days(1); // 1 day
+    const ICO = await ethers.getContractFactory('ICO');
     ico = await ICO.connect(owner).deploy(token.address, openingTime, closeTime);
     await ico.deployed();
   });
@@ -107,6 +105,8 @@ describe('ICO', function () {
     });
   
     it('should allow users to deposit ether', async function () {
+      const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      await ethers.provider.send('evm_increaseTime', [amount]);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
       expect(await ico.deposits(addr1.address)).to.equal(ethers.utils.parseEther('0.02'));
@@ -212,6 +212,11 @@ describe('ICO', function () {
     });
   
     it('should allow users to claim their tokens if the hard cap has been reached', async function () {
+      
+      const latestBlock = await ethers.provider.getBlock("latest");
+      const currentTimestamp = latestBlock.timestamp;
+      console.log(currentTimestamp);
+      console.log(Date.now() / 1000);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});

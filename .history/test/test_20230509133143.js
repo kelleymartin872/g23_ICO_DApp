@@ -212,6 +212,11 @@ describe('ICO', function () {
     });
   
     it('should allow users to claim their tokens if the hard cap has been reached', async function () {
+      
+      const latestBlock = await ethers.provider.getBlock("latest");
+      const currentTimestamp = latestBlock.timestamp;
+      console.log(currentTimestamp);
+      console.log(Date.now() / 1000);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});

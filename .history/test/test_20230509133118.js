@@ -107,6 +107,8 @@ describe('ICO', function () {
     });
   
     it('should allow users to deposit ether', async function () {
+      const amount = 1683507090 - Math.floor(Date.now() / 1000) + 10;
+      await ethers.provider.send('evm_increaseTime', [amount]);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
       expect(await ico.deposits(addr1.address)).to.equal(ethers.utils.parseEther('0.02'));
@@ -212,6 +214,11 @@ describe('ICO', function () {
     });
   
     it('should allow users to claim their tokens if the hard cap has been reached', async function () {
+      
+      const latestBlock = await ethers.provider.getBlock("latest");
+      const currentTimestamp = latestBlock.timestamp;
+      console.log(currentTimestamp);
+      console.log(Date.now() / 1000);
 
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
       await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.05')});
