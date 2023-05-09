@@ -41,39 +41,39 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Token = await ethers.getContractFactory("ICOToken");
-  const token = await Token.deploy();
+  const ITManToken = await ethers.getContractFactory("ICOToken");
+  const itManToken = await ITManToken.deploy();
 
-  await token.deployed();
-  console.log("token deployed to:", token.address);
-  console.log("Name", await token.name());
-  console.log("Symbol", await token.symbol());
-  console.log("Decimals", await token.decimals());
-  const totalSupply = await token.totalSupply();
+  await itManToken.deployed();
+  console.log("ITManToken deployed to:", itManToken.address);
+  console.log("Name", await itManToken.name());
+  console.log("Symbol", await itManToken.symbol());
+  console.log("Decimals", await itManToken.decimals());
+  const totalSupply = await itManToken.totalSupply();
   console.log("Total Supply", totalSupply);
-  const owner = await token.owner();
+  const owner = await itManToken.owner();
   console.log("Owner", owner);
 
-  // deploy crowdsale contract
-  const ICO = await ethers.getContractFactory("ICO");
+  // deploy ICO
+  const ITManTokenCrowdsale = await ethers.getContractFactory("ICO");
   const rate = 1000; // 500 wei per token
   const latestBlockTime = await latestTime();
   const openingTime = latestBlockTime + duration.minutes(1);
   const closeTime = openingTime + duration.weeks(1); // 1 week
   console.log("openingTime", openingTime);
   console.log("closeTime", closeTime);
-  const ico = await ICO.deploy(
-    token.address,
+  const itManTokenCrowdsale = await ITManTokenCrowdsale.deploy(
+    itManToken.address,
     // openingTime,
     // closeTime
   );
 
-  await ico.deployed();
-  console.log("ICO deployed to:", ico.address);
+  await itManTokenCrowdsale.deployed();
+  console.log("ITManTokenCrowdsale deployed to:", itManTokenCrowdsale.address);
 
   // approve crowdsale contract to spend 70% tokens
-  await token.approve(
-    ico.address,
+  await itManToken.approve(
+    itManTokenCrowdsale.address,
     totalSupply.mul(ethers.BigNumber.from(70)).div(ethers.BigNumber.from(100))
   );
 }
