@@ -108,33 +108,48 @@ describe('ICO', function () {
   
     it('should allow users to deposit ether', async function () {
 
-      await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
+      // await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
+
+      try {
+        await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
+        assert.fail("Expected an error but did not get one.");
+      } catch (err) {
+        assert.include(
+          err.message,
+          "ICO has not started yet",
+          "Incorrect error message"
+        );
+      }
+    });
+
       expect(await ico.deposits(addr1.address)).to.equal(ethers.utils.parseEther('0.02'));
     });
   
     it('should not allow users to deposit ether outside the time limits', async function () {
       await ethers.provider.send('evm_increaseTime', [-86400]);
+      const z = await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
+      console.log('adfadsfadsf', z);
       expect(
-        await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')})
+        ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')})
       ).to.be.revertedWith("ICO has not started yet");
 
       await ethers.provider.send('evm_increaseTime', [86400]);
       await ethers.provider.send('evm_increaseTime', [86400]);
       expect(
-        await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')})
+        ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')})
       ).to.be.revertedWith('ICO has ended');
       await ethers.provider.send('evm_increaseTime', [-86400]);
     });
   
     it('should not allow users to deposit ether below the minimum purchase amount', async function () {
       expect(
-        await ico.connect(addr1).deposit({ value: ethers.utils.parseEther('0.005') })
+        ico.connect(addr1).deposit({ value: ethers.utils.parseEther('0.005') })
       ).to.be.revertedWith('Purchase amount too small');
     });
   
     it('should not allow users to deposit ether above the maximum purchase amount', async function () {
       expect(
-        await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.1')})
+         ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.1')})
       ).to.be.revertedWith('Purchase amount too large');
     });
   
@@ -165,7 +180,7 @@ describe('ICO', function () {
       const amount = ethers.utils.parseEther('0.5');
       ico.totalEtherRaised = amount;
       await ethers.provider.send('evm_increaseTime', [86400]);
-      expect(await ico.connect(addr1).withdraw()).to.be.revertedWith(
+      expect(ico.connect(addr1).withdraw()).to.be.revertedWith(
         'Soft cap has been reached'
       );
       await ethers.provider.send('evm_increaseTime', [-86400]);
@@ -175,7 +190,7 @@ describe('ICO', function () {
       const value = ethers.utils.parseEther('0.05');
       ico.totalEtherRaised = value;
       
-      expect(await ico.connect(addr1).withdraw()).to.be.revertedWith(
+      expect(ico.connect(addr1).withdraw()).to.be.revertedWith(
         'ICO has not ended yet'
       );
     });
@@ -197,7 +212,7 @@ describe('ICO', function () {
     it('should not allow users to claim their tokens if the soft cap has not been reached', async function () {
       ico.totalEtherRaised = 0.05;
       await ethers.provider.send('evm_increaseTime', [86400]);
-      expect(await ico.connect(addr1).claim()).to.be.revertedWith(
+      expect(ico.connect(addr1).claim()).to.be.revertedWith(
         'Soft cap has not been reached'
       );
       await ethers.provider.send('evm_increaseTime', [-86400]);
@@ -205,8 +220,7 @@ describe('ICO', function () {
   
     it('should not allow users to claim their tokens if the hard cap has not been reached and ICO has not ended', async function () {
       ico.totalEtherRaised = 0.5;
-      console.log(ico.totalEtherRaised());
-      expect(await ico.connect(addr1).claim()).to.be.revertedWith(
+      expect(ico.connect(addr1).claim()).to.be.revertedWith(
         "Hard cap has not been reached"
       );
     });

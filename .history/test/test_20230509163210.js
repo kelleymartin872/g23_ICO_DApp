@@ -114,6 +114,8 @@ describe('ICO', function () {
   
     it('should not allow users to deposit ether outside the time limits', async function () {
       await ethers.provider.send('evm_increaseTime', [-86400]);
+      const z = await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')});
+      console.log('adfadsfadsf', z);
       expect(
         await ico.connect(addr1).deposit({value: ethers.utils.parseEther('0.02')})
       ).to.be.revertedWith("ICO has not started yet");
